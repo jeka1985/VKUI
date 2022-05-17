@@ -33,7 +33,6 @@ const ModalCard: React.FC<ModalCardProps> = (props) => {
     subheader,
     children,
     actions,
-    actionsLayout,
     onClose,
     platform,
     nav,
@@ -60,17 +59,12 @@ const ModalCard: React.FC<ModalCardProps> = (props) => {
         header={header}
         subheader={subheader}
         actions={actions}
-        actionsLayout={actionsLayout}
         onClose={onClose || modalContext.onClose}
       >
         {children}
       </ModalCardBase>
     </div>
   );
-};
-
-ModalCard.defaultProps = {
-  actionsLayout: "horizontal",
 };
 
 // eslint-disable-next-line import/no-default-export

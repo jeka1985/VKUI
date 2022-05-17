@@ -368,6 +368,7 @@ const App = () => {
           <Button
             size="l"
             mode="primary"
+            stretched
             onClick={() => changeActiveModal(MODAL_CARD_APP_TO_MENU)}
           >
             Попробовать
@@ -387,6 +388,7 @@ const App = () => {
           <Button
             size="l"
             mode="primary"
+            stretched
             onClick={() => changeActiveModal(MODAL_CARD_ABOUT)}
           >
             Добавить в меню
@@ -402,6 +404,7 @@ const App = () => {
           <Button
             size="l"
             mode="primary"
+            stretched
             onClick={() => changeActiveModal(MODAL_CARD_NOTIFICATIONS)}
           >
             Сохранить
@@ -416,24 +419,28 @@ const App = () => {
         onClose={() => changeActiveModal(null)}
         icon={<Icon56NotificationOutline />}
         header="Приложение запрашивает разрешение на отправку Вам уведомлений"
-        actions={[
-          <Button
-            key="deny"
-            size="l"
-            mode="secondary"
-            onClick={() => changeActiveModal(MODAL_CARD_CHAT_INVITE)}
-          >
-            Запретить
-          </Button>,
-          <Button
-            key="allow"
-            size="l"
-            mode="primary"
-            onClick={() => changeActiveModal(MODAL_CARD_CHAT_INVITE)}
-          >
-            Разрешить
-          </Button>,
-        ]}
+        actions={
+          <ButtonGroup size="s" stretched>
+            <Button
+              key="deny"
+              size="l"
+              mode="secondary"
+              stretched
+              onClick={() => changeActiveModal(MODAL_CARD_CHAT_INVITE)}
+            >
+              Запретить
+            </Button>
+            <Button
+              key="allow"
+              size="l"
+              mode="primary"
+              stretched
+              onClick={() => changeActiveModal(MODAL_CARD_CHAT_INVITE)}
+            >
+              Разрешить
+            </Button>
+          </ButtonGroup>
+        }
       />
 
       <ModalCard
@@ -442,25 +449,28 @@ const App = () => {
         icon={<Avatar src={getAvatarUrl("chat_basketball", 200)} size={72} />}
         header="Баскетбол на выходных"
         subheader="Приглашение в беседу"
-        actions={[
-          <Button
-            key="join"
-            size="l"
-            mode="primary"
-            onClick={() => changeActiveModal(null)}
-          >
-            Присоединиться
-          </Button>,
-          <Button
-            key="copy"
-            size="l"
-            mode="secondary"
-            onClick={() => changeActiveModal(null)}
-          >
-            Скопировать приглашение
-          </Button>,
-        ]}
-        actionsLayout="vertical"
+        actions={
+          <ButtonGroup size="l" mode="vertical" stretched>
+            <Button
+              key="join"
+              size="l"
+              mode="primary"
+              stretched
+              onClick={() => changeActiveModal(null)}
+            >
+              Присоединиться
+            </Button>
+            <Button
+              key="copy"
+              size="l"
+              mode="secondary"
+              stretched
+              onClick={() => changeActiveModal(null)}
+            >
+              Скопировать приглашение
+            </Button>
+          </ButtonGroup>
+        }
       >
         <UsersStack
           photos={[
