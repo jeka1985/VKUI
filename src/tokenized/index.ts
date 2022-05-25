@@ -44,6 +44,9 @@ export type { ParagraphProps } from "../components/Typography/Paragraph/Paragrap
 export { Text } from "../components/Typography/Text/Text";
 export type { TextProps } from "../components/Typography/Text/Text";
 
+export { Placeholder } from "../components/Placeholder/Placeholder";
+export type { PlaceholderProps } from "../components/Placeholder/Placeholder";
+
 export { Input } from "../components/Input/Input";
 export type { InputProps } from "../components/Input/Input";
 

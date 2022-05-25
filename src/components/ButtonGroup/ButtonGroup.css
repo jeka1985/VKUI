@@ -50,3 +50,11 @@
 }
 
 /* stylelint-enable vkui/atomic */
+
+/**
+ * CMP:
+ * Placeholder
+ */
+.Placeholder__action .ButtonGroup {
+  align-items: center;
+}

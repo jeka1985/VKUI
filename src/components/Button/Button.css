@@ -594,3 +594,11 @@
 .RichCell__actions > .Button + .Button {
   margin-left: 8px;
 }
+
+/**
+ * CMP:
+ * Placeholder
+ */
+.Placeholder__action .Button:not(:first-child) {
+  margin-top: 16px;
+}
