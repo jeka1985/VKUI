@@ -148,6 +148,7 @@ export default withAdaptivity(
                             appearance={styleGuideContext.appearance}
                           >
                             <Config
+                              scheme="inherit"
                               {...styleGuideContext}
                               exampleId={exampleId}
                             >

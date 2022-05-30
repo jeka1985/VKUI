@@ -98,7 +98,7 @@
 .ActionSheet--desktop {
   width: auto;
   height: auto;
-  background: var(--modal_card_background);
+  background: var(--modal_card_background, var(--vkui--color_background_modal));
   animation: none;
   padding: 0;
   margin: 0;
