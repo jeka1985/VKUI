@@ -95,6 +95,9 @@ export type { InputProps } from "../components/Input/Input";
 export { File } from "../components/File/File";
 export type { FileProps } from "../components/File/File";
 
+export { CardGrid } from "../components/CardGrid/CardGrid";
+export type { CardGridProps } from "../components/CardGrid/CardGrid";
+
 export { FocusVisible } from "../components/FocusVisible/FocusVisible";
 export type { FocusVisibleProps } from "../components/FocusVisible/FocusVisible";
 
