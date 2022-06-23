@@ -5,6 +5,7 @@ import { HasRef } from "../../types";
 import { usePlatform } from "../../hooks/usePlatform";
 import { getClassName } from "../../helpers/getClassName";
 import { useExternRef } from "../../hooks/useExternRef";
+import { useObjectMemo } from "../../hooks/useObjectMemo";
 import { useIsomorphicLayoutEffect } from "../../lib/useIsomorphicLayoutEffect";
 import "./Popper.css";
 
@@ -48,6 +49,15 @@ export interface PopperCommonProps
   sameWidth?: boolean;
   forcePortal?: boolean;
   onPlacementChange?: (data: { placement?: Placement }) => void;
+  /**
+   * Обьект, содержащий значения, которые влияют на расположение
+   *
+   * По умолчанию Popper перерассчитывает расположение только в случае событий scroll и resize, игнорируя изменения
+   * в children. Положив в данный обьект необходимые зависимости, можно искусственно вызывать перерасчет расположения
+   *
+   * ***Внимание: внутри обьекта значения сравниваются через strict equality***
+   */
+  placementDependencies?: Record<string, any>;
 }
 
 export interface PopperProps extends PopperCommonProps {
@@ -74,6 +84,7 @@ export const Popper: React.FC<PopperProps> = ({
   offsetSkidding = 0,
   forcePortal = true,
   style: compStyles,
+  placementDependencies = {},
   ...restProps
 }: PopperProps) => {
   const [popperNode, setPopperNode] = React.useState<HTMLDivElement | null>(
@@ -84,6 +95,8 @@ export const Popper: React.FC<PopperProps> = ({
   const platform = usePlatform();
 
   const setExternalRef = useExternRef<HTMLDivElement>(getRef, setPopperNode);
+
+  const dependencies = useObjectMemo(placementDependencies);
 
   const modifiers = React.useMemo(() => {
     const modifiers: Array<Modifier<string>> = [
@@ -144,7 +157,7 @@ export const Popper: React.FC<PopperProps> = ({
     offsetDistance,
   ]);
 
-  const { styles, state, attributes } = usePopper(
+  const { styles, state, attributes, forceUpdate } = usePopper(
     targetRef.current,
     popperNode,
     {
@@ -187,6 +200,12 @@ export const Popper: React.FC<PopperProps> = ({
       onPlacementChange && onPlacementChange({ placement: resolvedPlacement });
     }
   }, [onPlacementChange, resolvedPlacement]);
+
+  useIsomorphicLayoutEffect(() => {
+    if (Object.keys(dependencies).length > 0) {
+      forceUpdate?.();
+    }
+  }, [dependencies]);
 
   const dropdown = (
     <div
