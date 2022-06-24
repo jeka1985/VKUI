@@ -1,11 +1,16 @@
-import { DOMProps, useDOM } from "../../lib/dom";
 import * as React from "react";
-import { useExternRef } from "../../hooks/useExternRef";
+import { DOMProps, useDOM } from "../../lib/dom";
+import { classNames } from "../../lib/classNames";
 import { useIsomorphicLayoutEffect } from "../../lib/useIsomorphicLayoutEffect";
+import { useExternRef } from "../../hooks/useExternRef";
 import { useEventListener } from "../../hooks/useEventListener";
+import {
+  TrackerOptionsProps,
+  useTrackerVisibility,
+} from "./useTrackerVisibility";
 import "./CustomScrollView.css";
 
-export interface CustomScrollViewProps extends DOMProps {
+export interface CustomScrollViewProps extends DOMProps, TrackerOptionsProps {
   windowResize?: boolean;
   boxRef?: React.Ref<HTMLDivElement>;
   className?: HTMLDivElement["className"];
@@ -17,6 +22,8 @@ export const CustomScrollView = ({
   children,
   boxRef: externalBoxRef,
   windowResize,
+  hideScrollbar = false,
+  hideScrollbarDelay,
 }: CustomScrollViewProps) => {
   const { document, window } = useDOM();
 
@@ -116,14 +123,26 @@ export const CustomScrollView = ({
     setScrollPositionFromTracker(position);
   };
 
+  const { trackerVisible, queueTrackerVisibility, changeTrackerVisiblity } =
+    useTrackerVisibility(hideScrollbar, hideScrollbarDelay);
+
   const onUp = (e: MouseEvent) => {
     e.preventDefault();
+
+    if (hideScrollbar) {
+      changeTrackerVisiblity(e.target === trackerY.current, false);
+    }
+
     unsubscribe();
   };
 
   const scroll = () => {
     if (ratio.current >= 1 || !boxRef.current) {
       return;
+    }
+
+    if (hideScrollbar) {
+      queueTrackerVisibility();
     }
 
     setTrackerPositionFromScroll(boxRef.current.scrollTop);
@@ -149,14 +168,30 @@ export const CustomScrollView = ({
     startY.current = e.clientY;
     trackerTop.current = lastTrackerTop.current;
 
+    if (hideScrollbar) {
+      changeTrackerVisiblity(true, true);
+    }
+
     subscribe(document);
   };
+
+  const onMouseEnter = hideScrollbar
+    ? () => changeTrackerVisiblity(true)
+    : undefined;
+  const onMouseLeave = hideScrollbar
+    ? () => changeTrackerVisiblity(false)
+    : undefined;
 
   return (
     <div vkuiClass="CustomScrollView" className={className}>
       <div vkuiClass="CustomScrollView__barY" ref={barY}>
         <div
-          vkuiClass="CustomScrollView__trackerY"
+          vkuiClass={classNames(
+            "CustomScrollView__trackerY",
+            !trackerVisible && `CustomScrollView__trackerY--hidden`
+          )}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
           ref={trackerY}
           onMouseDown={onDragStart}
         />

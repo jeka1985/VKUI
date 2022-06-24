@@ -29,4 +29,17 @@ describe("CustomSelectDropdown", () => {
     );
     expect(document.querySelector(".test-content")).not.toBeNull();
   });
+
+  it("Displays children if fetching: false", () => {
+    render(
+      <CustomSelectDropdown
+        targetRef={React.createRef()}
+        scrollBoxRef={React.createRef()}
+        hideScrollbar
+      >
+        <div className="test-content">test</div>
+      </CustomSelectDropdown>
+    );
+    expect(document.querySelector(".test-content")).not.toBeNull();
+  });
 });

@@ -28,6 +28,7 @@ import {
 import { is } from "../../lib/is";
 import { Placement } from "../Popper/Popper";
 import { CustomSelectDropdown } from "../CustomSelectDropdown/CustomSelectDropdown";
+import { TrackerOptionsProps } from "../CustomScrollView/useTrackerVisibility";
 import { SelectType } from "../Select/Select";
 import "./CustomSelect.css";
 
@@ -93,7 +94,8 @@ interface CustomSelectState {
 export interface CustomSelectProps
   extends NativeSelectProps,
     HasPlatform,
-    FormFieldProps {
+    FormFieldProps,
+    TrackerOptionsProps {
   /**
    * Если `true`, то при клике на селект в нём появится текстовое поле для поиска по `options`. По умолчанию поиск
    * производится по `option.label`.
@@ -667,6 +669,8 @@ class CustomSelectComponent extends React.Component<
       fixDropdownWidth,
       forceDropdownPortal,
       selectType = SelectType.default,
+      hideScrollbar,
+      hideScrollbarDelay,
       ...restProps
     } = this.props;
     const selected = this.getSelectedItem();
@@ -766,6 +770,8 @@ class CustomSelectComponent extends React.Component<
             offsetDistance={dropdownOffsetDistance}
             sameWidth={fixDropdownWidth}
             forcePortal={forceDropdownPortal}
+            hideScrollbar={hideScrollbar}
+            hideScrollbarDelay={hideScrollbarDelay}
           >
             {resolvedContent}
           </CustomSelectDropdown>
